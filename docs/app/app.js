@@ -1,8 +1,9 @@
 /* Squirrel Watch PH — responsive web reporter.
-   No backend. Reports are sent straight to the agency via the Web Share API
-   (with the photo) or a mailto: fallback. History is kept in localStorage.
-   The CAMPAIGN object is the single unit of reuse — swap it to retarget the
-   app at another animal / country / agency (mirrors the Flutter app). */
+   No backend. Submitting opens the phone's own email app (mailto:), pre-addressed
+   to the agency with the subject and details filled in — the user just presses
+   Send. History is kept in localStorage. The CAMPAIGN object is the single unit
+   of reuse — swap it to retarget the app at another animal / country / agency
+   (mirrors the Flutter app). */
 
 const CAMPAIGN = {
   id: "squirrel-ph",
@@ -47,7 +48,7 @@ const CAMPAIGN = {
     },
     still_present: { label: "Is it still there now?" },
   },
-  submitLabel: "Send report to DENR",
+  submitLabel: "Email report to DENR",
   safety: [
     "Do not touch, catch or feed the squirrel — wild animals can carry disease (including rabies).",
     "Keep a safe distance and keep pets and children away.",
@@ -307,7 +308,7 @@ function updateSend() {
     ? "Choose a species to continue · no account needed"
     : !hasLoc
     ? "Add a location — use the map or a landmark"
-    : `Sends to ${CAMPAIGN.agency.name}`;
+    : `Opens your email app, addressed to ${CAMPAIGN.email.to}`;
 }
 
 /* -------------------------------------------------------------- submit */
@@ -376,39 +377,31 @@ function bodyFor(r) {
   return L.join("\n");
 }
 
-async function deliver(r, file) {
+// Opens the phone's email app (composer), pre-addressed to the agency with the
+// subject and body filled in. mailto can't carry a file attachment, so when a
+// photo is present we prompt the sender to attach it in their mail app.
+function deliver(r) {
   const subject = subjectFor(r);
-  const body = bodyFor(r);
-  // Prefer native share with the photo attached (mobile).
-  if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
-    try {
-      await navigator.share({ title: subject, text: body, files: [file] });
-      return "shared";
-    } catch (e) {
-      if (e && e.name === "AbortError") return "aborted";
-    }
-  } else if (!file && navigator.share) {
-    try {
-      await navigator.share({ title: subject, text: body });
-      return "shared";
-    } catch (e) {
-      if (e && e.name === "AbortError") return "aborted";
-    }
+  let body = bodyFor(r);
+  if (r.hasPhoto) {
+    body +=
+      "\n\n[Please attach your photo to this email before sending — use the attachment / paperclip button in your mail app.]";
   }
-  // Fallback: open the user's email client (no attachment possible via mailto).
-  const extra = r.hasPhoto ? "\n\n[Please attach your photo to this email before sending.]" : "";
-  window.location.href = `mailto:${CAMPAIGN.email.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body + extra)}`;
-  return "mailto";
+  window.location.href =
+    `mailto:${CAMPAIGN.email.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
-async function submit() {
+function submit() {
   const r = buildReport();
-  const res = await deliver(r, state.photoFile);
-  if (res === "aborted") return; // user backed out of the share sheet
   r.status = "sent";
   saveReport(r);
   renderHistory();
-  toast(res === "mailto" ? "Email opened — review and press send." : "Shared — pick Mail to send to DENR.");
+  toast(
+    state.photoFile
+      ? "Opening your email app — attach your photo, then press Send."
+      : "Opening your email app — review and press Send."
+  );
+  deliver(r); // must run during the click gesture so the mail app opens
   resetForm();
 }
 
@@ -493,7 +486,7 @@ function renderHistory() {
       el.querySelector('[data-act="del"]').addEventListener("click", () => deleteReport(id));
       el.querySelector('[data-act="resend"]').addEventListener("click", () => {
         const r = loadReports().find((x) => x.id === id);
-        if (r) deliver(r, r.thumb ? dataURLtoFile(r.thumb, "sighting.jpg") : null);
+        if (r) deliver(r);
       });
     });
 }
@@ -574,13 +567,4 @@ async function makeThumb(file, max) {
   URL.revokeObjectURL(img.src);
   return c.toDataURL("image/jpeg", 0.82);
 }
-function dataURLtoFile(durl, name) {
-  const [meta, b64] = durl.split(",");
-  const mime = (meta.match(/:(.*?);/) || [, "image/jpeg"])[1];
-  const bin = atob(b64);
-  const u = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
-  return new File([u], name, { type: mime });
-}
-
 document.addEventListener("DOMContentLoaded", init);
