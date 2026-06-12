@@ -84,4 +84,5 @@ const Campaign caneToadAuCampaign = Campaign(
     'Wash hands after any contact; their toxin irritates eyes and skin.',
   ],
   requirePhoto: false,
+  urlScheme: 'canetoadwatch',
 );

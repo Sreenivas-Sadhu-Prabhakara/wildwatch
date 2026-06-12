@@ -120,4 +120,5 @@ const Campaign squirrelPhCampaign = Campaign(
     'A clear photo from a distance is more useful than getting close.',
   ],
   requirePhoto: false,
+  urlScheme: 'squirrelwatch',
 );

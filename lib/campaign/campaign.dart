@@ -26,6 +26,7 @@ class Campaign {
     this.safetyNotes = const [],
     this.requirePhoto = false,
     this.allowUnknownSpecies = true,
+    this.urlScheme = 'wildwatch',
   });
 
   /// Stable machine id, e.g. `squirrel-ph`. Stored on every report.
@@ -61,6 +62,13 @@ class Campaign {
 
   /// Whether the reporter may submit without picking an exact species.
   final bool allowUnknownSpecies;
+
+  /// Custom URL scheme this flavor responds to (e.g. `squirrelwatch`). Used for
+  /// deep links so the app can be driven from an iOS/Android Shortcut, e.g.
+  /// `squirrelwatch://report?species=...`. The universal `wildwatch` scheme is
+  /// always handled too. Per-flavor schemes must also be registered natively
+  /// (iOS Info.plist `CFBundleURLTypes`, Android `intent-filter`).
+  final String urlScheme;
 
   SpeciesOption? speciesById(String? id) {
     if (id == null) return null;

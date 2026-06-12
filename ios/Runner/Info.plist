@@ -14,6 +14,18 @@
 	<string>Take a photo of the animal as evidence for your report.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Attach a photo of the animal from your library to your report.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>ph.wildwatch.wildwatch</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wildwatch</string>
+				<string>squirrelwatch</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

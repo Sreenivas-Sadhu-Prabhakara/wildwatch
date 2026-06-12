@@ -118,6 +118,58 @@ flutter analyze
 - **iOS** (`Info.plist`): location-when-in-use, camera, and photo-library usage
   descriptions.
 
+## Testing with an iOS Shortcut (deep links)
+
+The app registers a custom URL scheme, so it can be launched straight into a
+pre-filled report from an **iOS Shortcut** (or Android, or a browser). A
+Shortcut's *Open URL* action triggers exactly the same path as
+`xcrun simctl openurl`.
+
+**Schemes:** `squirrelwatch://` (this flavor) and the universal `wildwatch://`.
+
+**Routes:**
+
+| URL | Opens |
+| --- | --- |
+| `squirrelwatch://report?…` | New report form, pre-filled from the query |
+| `squirrelwatch://reports` | My reports / history |
+| `squirrelwatch://` | Home |
+
+**Prefill query params** (all optional): `species` (a species id, e.g.
+`finlaysons-squirrel`), `lat` + `lng`, `locality`, `notes`, `name` / `phone` /
+`email`, and any campaign field key (`count`, `behavior`, `habitat`,
+`still_present`). Values must be URL-encoded.
+
+Example:
+
+```
+squirrelwatch://report?species=finlaysons-squirrel&lat=14.5547&lng=121.0244&locality=Ayala%20Triangle%2C%20Makati&count=2&behavior=On%20power%20lines%20%2F%20cables&notes=Seen%20from%20office%20window
+```
+
+### Create the Shortcut (iPhone)
+
+1. Open **Shortcuts** → **+** → **Add Action**.
+2. Search **Open URL**, add it, and paste a URL like the one above.
+3. Name it e.g. *“Report a squirrel”*, then **Done**. (Optionally pin it to the
+   Home Screen or Share Sheet.)
+4. Run it → Squirrel Watch PH opens with the report already filled in; review and
+   send.
+
+**Make it capture real GPS:** in the Shortcut, add **Get Current Location**, then
+a **Text** action that builds the URL with the location interpolated
+(`squirrelwatch://report?lat=[Latitude]&lng=[Longitude]`), and feed that into
+**Open URL**. You can also add **Ask for Input** actions for the count, etc.
+
+### Trigger it without a Shortcut
+
+```bash
+# iOS Simulator
+xcrun simctl openurl booted "squirrelwatch://report?species=finlaysons-squirrel&count=2&locality=Makati"
+
+# Android device/emulator
+adb shell am start -a android.intent.action.VIEW -d "squirrelwatch://report?species=finlaysons-squirrel&count=2"
+```
+
 ## Status / next steps
 
 - Submission is wired and working for both channels. The `cane-toad-au` API URL

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wildwatch/campaign/active_campaign.dart';
 import 'package:wildwatch/models/report.dart';
+import 'package:wildwatch/models/report_prefill.dart';
 import 'package:wildwatch/submission/report_formatter.dart';
 
 void main() {
@@ -88,6 +89,54 @@ void main() {
       );
       final body = ReportFormatter(campaign).emailBody(report);
       expect(body, contains('Anonymous'));
+    });
+  });
+
+  group('ReportPrefill.fromUri (deep link / Shortcut)', () {
+    test('parses species, location, locality, fields, notes and contact', () {
+      final uri = Uri.parse(
+        'squirrelwatch://report?species=finlaysons-squirrel'
+        '&lat=14.5547&lng=121.0244'
+        '&locality=Ayala%20Triangle%2C%20Makati'
+        '&count=2&behavior=On%20power%20lines%20%2F%20cables'
+        '&still_present=true'
+        '&notes=Seen%20from%20the%20office%20window'
+        '&name=Ana%20Cruz&email=ana@example.com',
+      );
+      final p = ReportPrefill.fromUri(uri);
+
+      expect(p.speciesId, 'finlaysons-squirrel');
+      expect(p.location!.latitude, 14.5547);
+      expect(p.location!.longitude, 121.0244);
+      expect(p.localityText, 'Ayala Triangle, Makati');
+      expect(p.fieldValues['count'], '2');
+      expect(p.fieldValues['behavior'], 'On power lines / cables');
+      expect(p.fieldValues['still_present'], 'true');
+      expect(p.notes, 'Seen from the office window');
+      expect(p.contact!.name, 'Ana Cruz');
+      expect(p.contact!.email, 'ana@example.com');
+      expect(p.isEmpty, isFalse);
+    });
+
+    test('accepts latitude/longitude aliases and is anonymous without contact', () {
+      final p = ReportPrefill.fromUri(
+        Uri.parse('wildwatch://report?latitude=1.5&longitude=2.5'),
+      );
+      expect(p.location!.latitude, 1.5);
+      expect(p.location!.longitude, 2.5);
+      expect(p.contact, isNull);
+    });
+
+    test('a bare link yields an empty prefill', () {
+      final p = ReportPrefill.fromUri(Uri.parse('squirrelwatch://report'));
+      expect(p.isEmpty, isTrue);
+    });
+
+    test('ignores invalid coordinates', () {
+      final p = ReportPrefill.fromUri(
+        Uri.parse('squirrelwatch://report?lat=abc&lng=121.0'),
+      );
+      expect(p.location, isNull);
     });
   });
 }

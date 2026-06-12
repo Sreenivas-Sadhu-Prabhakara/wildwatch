@@ -5,12 +5,16 @@ import 'package:uuid/uuid.dart';
 import '../../app_scope.dart';
 import '../../campaign/campaign.dart';
 import '../../models/report.dart';
+import '../../models/report_prefill.dart';
 import 'widgets/dynamic_field.dart';
 import 'widgets/location_picker.dart';
 import 'widgets/photo_field.dart';
 
 class NewReportScreen extends StatefulWidget {
-  const NewReportScreen({super.key});
+  const NewReportScreen({super.key, this.prefill});
+
+  /// Optional values to seed the form, e.g. from a deep link / Shortcut.
+  final ReportPrefill? prefill;
 
   @override
   State<NewReportScreen> createState() => _NewReportScreenState();
@@ -30,6 +34,25 @@ class _NewReportScreenState extends State<NewReportScreen> {
   final _phone = TextEditingController();
   final _email = TextEditingController();
   final Map<String, String> _fieldValues = {};
+
+  @override
+  void initState() {
+    super.initState();
+    final p = widget.prefill;
+    if (p != null) {
+      _speciesId = p.speciesId;
+      _location = p.location;
+      if (p.localityText != null) _locality.text = p.localityText!;
+      if (p.notes != null) _notes.text = p.notes!;
+      _fieldValues.addAll(p.fieldValues);
+      if (p.contact != null) {
+        _name.text = p.contact!.name ?? '';
+        _phone.text = p.contact!.phone ?? '';
+        _email.text = p.contact!.email ?? '';
+        _contactExpanded = !p.contact!.isEmpty;
+      }
+    }
+  }
 
   @override
   void dispose() {
