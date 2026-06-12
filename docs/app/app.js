@@ -202,6 +202,7 @@ function renderPhotoSlot() {
       state.photoFile = null;
       state.photoThumb = null;
       renderPhotoSlot();
+      updatePhotoShare();
     });
   } else {
     slot.innerHTML = `
@@ -225,6 +226,28 @@ async function onPhotoPicked(file) {
     state.photoThumb = null;
   }
   renderPhotoSlot();
+  updatePhotoShare();
+}
+
+// True when this device can share the photo file via the OS share sheet
+// (mobile Safari / Chrome). On desktop this is usually false.
+function canSharePhoto() {
+  return !!(state.photoFile && navigator.canShare && navigator.canShare({ files: [state.photoFile] }));
+}
+function updatePhotoShare() {
+  $("sharePhoto").hidden = !canSharePhoto();
+}
+async function sharePhoto() {
+  if (!canSharePhoto()) return;
+  try {
+    await navigator.share({
+      files: [state.photoFile],
+      title: "Squirrel sighting photo",
+      text: "Photo for my squirrel sighting report to DENR.",
+    });
+  } catch (e) {
+    // user dismissed the share sheet — nothing to do
+  }
 }
 
 /* ------------------------------------------------------------------ map */
@@ -294,6 +317,8 @@ function wire() {
   $("useLoc").addEventListener("click", useMyLocation);
   $("locality").addEventListener("input", updateSend);
   $("send").addEventListener("click", submit);
+  $("sharePhoto").addEventListener("click", sharePhoto);
+  $("newReport").addEventListener("click", () => resetForm());
   $("openHist").addEventListener("click", () => toggleDrawer(true));
   $("closeHist").addEventListener("click", () => toggleDrawer(false));
   $("scrim").addEventListener("click", () => toggleDrawer(false));
@@ -396,13 +421,22 @@ function submit() {
   r.status = "sent";
   saveReport(r);
   renderHistory();
-  toast(
-    state.photoFile
-      ? "Opening your email app — attach your photo, then press Send."
-      : "Opening your email app — review and press Send."
-  );
   deliver(r); // must run during the click gesture so the mail app opens
-  resetForm();
+
+  if (canSharePhoto()) {
+    // Keep the form so the user can also attach the photo to their email; offer
+    // an explicit "new report" reset instead of clearing automatically.
+    $("newReport").hidden = false;
+    $("sendMeta").textContent = "Email opened ✓ — now tap “Attach photo” to add the picture.";
+    toast("Email opened. Tap “Attach photo” to add your picture.");
+  } else {
+    toast(
+      state.photoFile
+        ? "Email opened — attach your photo in your mail app, then Send."
+        : "Email opened — review and press Send."
+    );
+    resetForm();
+  }
 }
 
 function resetForm() {
@@ -413,11 +447,13 @@ function resetForm() {
   state.fields = { count: 1, behavior: null, habitat: null, still_present: null };
   syncSpecies();
   renderPhotoSlot();
+  updatePhotoShare();
   renderDetails();
   $("locality").value = "";
   $("notes").value = "";
   $("cname").value = $("cphone").value = $("cemail").value = "";
   $("coords").textContent = "Tap the map to drop a pin, or use your location.";
+  $("newReport").hidden = true;
   if (marker && map) {
     map.removeLayer(marker);
     marker = null;
