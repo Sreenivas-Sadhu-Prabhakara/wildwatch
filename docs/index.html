@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Squirrel Watch PH — Download &amp; Test</title>
+<meta name="description" content="Report invasive Finlayson's squirrel sightings to DENR. Download the Android test build of Squirrel Watch PH." />
+<style>
+  :root {
+    --green-900: #14361b;
+    --green-800: #1b5e20;
+    --green-700: #2e7d32;
+    --green-600: #388e3c;
+    --green-100: #c8e6c9;
+    --green-050: #e8f5e9;
+    --amber: #f9a825;
+    --ink: #1a1c19;
+    --muted: #5b6157;
+    --surface: #f6faf4;
+    --card: #ffffff;
+    --line: #dce5d8;
+    --radius: 18px;
+    --shadow: 0 10px 30px rgba(20, 54, 27, 0.10);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--surface);
+    line-height: 1.55;
+  }
+  a { color: var(--green-700); }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+  /* Header */
+  header {
+    background: radial-gradient(1200px 400px at 80% -10%, #ffffff 0%, transparent 60%),
+                linear-gradient(160deg, var(--green-050), #ffffff 70%);
+    border-bottom: 1px solid var(--line);
+  }
+  .brandbar { display: flex; align-items: center; gap: 12px; padding: 20px 0; }
+  .badge {
+    width: 46px; height: 46px; border-radius: 13px;
+    background: var(--green-100);
+    display: grid; place-items: center; font-size: 26px;
+  }
+  .brandbar .name { font-weight: 800; font-size: 19px; letter-spacing: -0.2px; }
+  .brandbar .country { color: var(--muted); font-size: 13px; }
+  .ghlink { margin-left: auto; font-size: 14px; font-weight: 600; text-decoration: none; }
+
+  .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; align-items: center; padding: 28px 0 52px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--amber); color: #3a2c00; font-weight: 700;
+    font-size: 12.5px; padding: 6px 12px; border-radius: 999px; letter-spacing: .2px;
+  }
+  .hero h1 { font-size: 40px; line-height: 1.1; margin: 16px 0 10px; letter-spacing: -1px; }
+  .hero p.lead { font-size: 17px; color: var(--muted); margin: 0 0 24px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 16px; text-decoration: none;
+    padding: 15px 22px; border-radius: 14px; border: 0; cursor: pointer;
+    transition: transform .08s ease, box-shadow .2s ease;
+  }
+  .btn-primary { background: var(--green-700); color: #fff; box-shadow: var(--shadow); }
+  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-ghost { background: #fff; color: var(--green-800); border: 1.5px solid var(--line); }
+  .meta { color: var(--muted); font-size: 13px; margin-top: 12px; }
+
+  /* Phone */
+  .phone {
+    justify-self: center;
+    width: 270px; border-radius: 38px; padding: 12px;
+    background: #11210f; box-shadow: var(--shadow);
+  }
+  .phone img { width: 100%; display: block; border-radius: 27px; }
+
+  /* Sections */
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 24px; letter-spacing: -0.4px; margin: 0 0 6px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 20px;
+  }
+  .card h3 { margin: 0 0 6px; font-size: 16px; }
+  .card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+  ol.steps li {
+    position: relative; padding: 14px 0 14px 48px; border-bottom: 1px dashed var(--line);
+  }
+  ol.steps li:last-child { border-bottom: 0; }
+  ol.steps li::before {
+    counter-increment: s; content: counter(s);
+    position: absolute; left: 0; top: 12px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--green-700); color: #fff; font-weight: 700;
+    display: grid; place-items: center; font-size: 14px;
+  }
+  ol.steps b { color: var(--ink); }
+
+  .checklist { list-style: none; padding: 0; margin: 0; }
+  .checklist li { padding: 9px 0 9px 30px; position: relative; color: var(--muted); }
+  .checklist li::before {
+    content: "✓"; position: absolute; left: 0; top: 9px;
+    color: var(--green-600); font-weight: 800;
+  }
+
+  .note {
+    background: var(--green-050); border: 1px solid var(--green-100);
+    border-radius: 14px; padding: 16px 18px; color: var(--green-900); font-size: 14.5px;
+  }
+  .warn {
+    background: #fff7e6; border: 1px solid #ffe2a8;
+    border-radius: 14px; padding: 16px 18px; color: #5a4300; font-size: 14.5px;
+  }
+
+  footer { padding: 36px 0 60px; color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--line); }
+  .disclaimer { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; text-align: left; padding-bottom: 36px; }
+    .hero h1 { font-size: 32px; }
+    .phone { order: -1; width: 230px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brandbar">
+      <div class="badge">🐿️</div>
+      <div>
+        <div class="name">Squirrel Watch PH</div>
+        <div class="country">Philippines · powered by WildWatch</div>
+      </div>
+      <a class="ghlink" href="https://github.com/Sreenivas-Sadhu-Prabhakara/wildwatch" target="_blank" rel="noopener">View source ↗</a>
+    </div>
+
+    <div class="wrap" style="padding:0;">
+      <div class="hero">
+        <div>
+          <span class="pill">⚠ Invasive species reporting</span>
+          <h1>Spotted a squirrel?<br>Help DENR track it.</h1>
+          <p class="lead">
+            Finlayson’s squirrels are invasive and not native to the Philippines.
+            Snap a photo, drop a pin, and your report goes straight to the DENR
+            Biodiversity Management Bureau — no account needed.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="https://github.com/Sreenivas-Sadhu-Prabhakara/wildwatch/releases/latest/download/squirrel-watch-ph.apk">
+              ⬇ Download for Android (.apk)
+            </a>
+            <a class="btn btn-ghost" href="#install">How to install</a>
+          </div>
+          <div class="meta">Test build · Android 6.0+ · ~25 MB · iPhone via TestFlight (coming soon)</div>
+        </div>
+        <div class="phone">
+          <img src="assets/screenshot-home.png" alt="Squirrel Watch PH home screen" />
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="install" class="wrap">
+    <h2>Install on Android</h2>
+    <p class="sub">Sideloading a test build takes about a minute.</p>
+    <ol class="steps">
+      <li><b>Download the APK</b> using the button above, on the Android phone itself.</li>
+      <li><b>Open the downloaded file</b> (from the notification or your Files / Downloads app).</li>
+      <li><b>Allow installs from this source</b> when prompted — Android asks the first time you install outside the Play Store. Tap <b>Settings → Allow from this source</b>, then go back.</li>
+      <li><b>Tap Install</b>, then <b>Open</b>. That’s it.</li>
+    </ol>
+    <div class="warn" style="margin-top:18px;">
+      <b>Heads up:</b> this is an unsigned test build for trying the app before it
+      reaches the Play Store. Google Play Protect may show a generic “unknown app”
+      warning — choose <b>Install anyway</b>. The release Play Store build will be
+      properly signed.
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>Try it out</h2>
+    <p class="sub">A quick run-through to test the full reporting flow.</p>
+    <ul class="checklist">
+      <li>Tap <b>Report a sighting</b> on the home screen.</li>
+      <li>Pick the species — try <b>Finlayson’s squirrel</b> and read the ID hint.</li>
+      <li>Add a photo with the camera or from your gallery.</li>
+      <li>Tap <b>Use my location</b>, or tap the map to place the pin yourself.</li>
+      <li>Answer the quick details (how many, what it was doing, where).</li>
+      <li>Optionally add your contact details — or leave them blank to stay anonymous.</li>
+      <li>Tap <b>Send report to DENR</b> — your email app opens, pre-filled and addressed to <b>bmb@bmb.gov.ph</b> with the photo attached. Send it (or just check the draft while testing).</li>
+      <li>Open <b>My reports</b> to see it saved with its status. Try airplane mode to see offline behaviour.</li>
+    </ul>
+    <div class="note" style="margin-top:18px;">
+      There is no server behind this app. Reports are delivered straight to the
+      agency from your device, and your history is kept locally on the phone.
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>What’s inside</h2>
+    <p class="sub">Built to be rebranded for any animal, country, and agency.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>📸 Photo &amp; evidence</h3>
+        <p>Capture or attach a photo so the agency can confirm the species.</p>
+      </div>
+      <div class="card">
+        <h3>📍 Map pin &amp; GPS</h3>
+        <p>Auto-locate or tap an OpenStreetMap to mark exactly where you saw it.</p>
+      </div>
+      <div class="card">
+        <h3>✈️ Works offline</h3>
+        <p>Reports save on the device and send when you’re back online.</p>
+      </div>
+      <div class="card">
+        <h3>🔁 Reusable engine</h3>
+        <p>Swap the campaign config to report any species to any agency, by email or API.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>On iPhone?</h2>
+    <p class="sub">iOS can’t sideload APKs.</p>
+    <div class="note">
+      An iOS build will be distributed through <b>Apple TestFlight</b>. Want in on the
+      iPhone test? Open an issue on the
+      <a href="https://github.com/Sreenivas-Sadhu-Prabhakara/wildwatch" target="_blank" rel="noopener">GitHub repo</a>
+      and we’ll add you to the TestFlight group when it’s live.
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b>Squirrel Watch PH</b> — a WildWatch campaign · delivered to DENR Biodiversity Management Bureau (bmb@bmb.gov.ph)</div>
+    <div class="disclaimer">
+      Independent civic-tech test build, not an official DENR product. For wildlife
+      emergencies contact DENR directly. Do not touch, catch or feed wild squirrels —
+      they can carry disease.
+    </div>
+  </div>
+</footer>
+</body>
+</html>
