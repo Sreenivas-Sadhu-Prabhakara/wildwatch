@@ -1,0 +1,14 @@
+{
+  "name": "Squirrel Watch PH",
+  "short_name": "Squirrel Watch",
+  "description": "Report invasive Finlayson's squirrel sightings to DENR.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3eee1",
+  "theme_color": "#2e7d32",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
