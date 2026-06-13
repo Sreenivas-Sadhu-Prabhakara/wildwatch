@@ -3,8 +3,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Squirrel Watch PH — Download &amp; Test</title>
-<meta name="description" content="Report invasive Finlayson's squirrel sightings to DENR. Download the Android test build of Squirrel Watch PH." />
+<title>Squirrel Watch PH — Help stop an invasive species before it reaches the farms</title>
+<meta name="description" content="Finlayson's squirrels are an invasive species spreading from Metro Manila into the farm provinces. Report a sighting and help DENR map and stop them — backed by global eradication case studies." />
+<meta name="theme-color" content="#2e7d32" />
+
+<!-- Social share -->
+<meta property="og:title" content="Squirrel Watch PH — Report an invasive squirrel" />
+<meta property="og:description" content="An invasive squirrel is crossing into our farm provinces. One photo and a pin help DENR stop it. Join the citizen-science map." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
   :root {
     --green-900: #14361b;
@@ -14,33 +24,42 @@
     --green-100: #c8e6c9;
     --green-050: #e8f5e9;
     --amber: #f9a825;
+    --amber-d: #b06c06;
+    --amber-050: #fff7e6;
+    --amber-100: #ffe2a8;
+    --rust: #b5451b;
+    --rust-050: #fbe6dd;
     --ink: #1a1c19;
     --muted: #5b6157;
+    --faint: #828a7c;
     --surface: #f6faf4;
     --card: #ffffff;
     --line: #dce5d8;
     --radius: 18px;
     --shadow: 0 10px 30px rgba(20, 54, 27, 0.10);
+    --shadow-lg: 0 22px 60px -22px rgba(20, 54, 27, 0.45);
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: var(--ink);
     background: var(--surface);
     line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
   }
   a { color: var(--green-700); }
-  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  .serif { font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto; letter-spacing: -0.4px; }
 
-  /* Header */
-  header {
-    background: radial-gradient(1200px 400px at 80% -10%, #ffffff 0%, transparent 60%),
-                linear-gradient(160deg, var(--green-050), #ffffff 70%);
+  /* ---------- top bar ---------- */
+  header.site {
+    background: radial-gradient(1200px 420px at 80% -10%, #ffffff 0%, transparent 60%),
+                linear-gradient(160deg, var(--green-050), #ffffff 72%);
     border-bottom: 1px solid var(--line);
   }
-  .brandbar { display: flex; align-items: center; gap: 12px; padding: 20px 0; }
+  .brandbar { display: flex; align-items: center; gap: 12px; padding: 18px 0; }
   .badge {
     width: 46px; height: 46px; border-radius: 13px;
     background: var(--green-100);
@@ -48,16 +67,23 @@
   }
   .brandbar .name { font-weight: 800; font-size: 19px; letter-spacing: -0.2px; }
   .brandbar .country { color: var(--muted); font-size: 13px; }
-  .ghlink { margin-left: auto; font-size: 14px; font-weight: 600; text-decoration: none; }
+  .navlinks { margin-left: auto; display: flex; align-items: center; gap: 18px; }
+  .navlinks a { font-size: 14px; font-weight: 600; text-decoration: none; color: var(--muted); }
+  .navlinks a:hover { color: var(--green-700); }
+  .navlinks a.donate { color: var(--rust); }
+  @media (max-width: 640px) { .navlinks a.hide-sm { display: none; } }
 
-  .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; align-items: center; padding: 28px 0 52px; }
+  /* ---------- hero ---------- */
+  .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; padding: 34px 0 56px; }
   .pill {
     display: inline-flex; align-items: center; gap: 7px;
-    background: var(--amber); color: #3a2c00; font-weight: 700;
-    font-size: 12.5px; padding: 6px 12px; border-radius: 999px; letter-spacing: .2px;
+    background: var(--rust); color: #fff; font-weight: 700;
+    font-size: 12.5px; padding: 6px 13px; border-radius: 999px; letter-spacing: .3px;
+    text-transform: uppercase;
   }
-  .hero h1 { font-size: 40px; line-height: 1.1; margin: 16px 0 10px; letter-spacing: -1px; }
-  .hero p.lead { font-size: 17px; color: var(--muted); margin: 0 0 24px; }
+  .hero h1 { font-size: 46px; line-height: 1.04; margin: 18px 0 14px; font-weight: 600; }
+  .hero h1 em { font-style: italic; color: var(--green-700); }
+  .hero p.lead { font-size: 18px; color: var(--muted); margin: 0 0 26px; max-width: 46ch; }
   .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
   .btn {
     display: inline-flex; align-items: center; gap: 10px;
@@ -66,191 +92,503 @@
     transition: transform .08s ease, box-shadow .2s ease;
   }
   .btn-primary { background: var(--green-700); color: #fff; box-shadow: var(--shadow); }
-  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+  .btn-donate { background: var(--amber); color: #3a2c00; box-shadow: 0 10px 26px -12px rgba(176,108,6,.8); }
+  .btn-donate:hover { transform: translateY(-1px); }
   .btn-ghost { background: #fff; color: var(--green-800); border: 1.5px solid var(--line); }
-  .meta { color: var(--muted); font-size: 13px; margin-top: 12px; }
+  .meta { color: var(--muted); font-size: 13px; margin-top: 14px; }
 
-  /* Phone */
-  .phone {
-    justify-self: center;
-    width: 270px; border-radius: 38px; padding: 12px;
-    background: #11210f; box-shadow: var(--shadow);
+  .hero-card {
+    justify-self: center; width: 100%; max-width: 320px;
+    background: linear-gradient(165deg, #1f5524, #14361b); color: #eaf3e4;
+    border-radius: 24px; padding: 24px; box-shadow: var(--shadow-lg);
   }
-  .phone img { width: 100%; display: block; border-radius: 27px; }
+  .hero-card .frontier-label { font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: #a9c9a3; }
+  .hero-card h3 { font-size: 19px; margin: 6px 0 16px; font-weight: 600; }
+  .frontier-list { list-style: none; margin: 0; padding: 0; }
+  .frontier-list li { display: flex; align-items: center; gap: 11px; padding: 9px 0; border-top: 1px solid rgba(255,255,255,.12); font-size: 14.5px; }
+  .frontier-list li:first-child { border-top: 0; }
+  .frontier-list .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--amber); flex: none; box-shadow: 0 0 0 4px rgba(249,168,37,.18); }
+  .frontier-list .where { font-weight: 700; }
+  .frontier-list .meta-sm { color: #a9c9a3; font-size: 12px; margin-left: auto; }
 
-  /* Sections */
-  section { padding: 44px 0; border-top: 1px solid var(--line); }
-  h2 { font-size: 24px; letter-spacing: -0.4px; margin: 0 0 6px; }
-  .sub { color: var(--muted); margin: 0 0 24px; }
+  /* ---------- sections ---------- */
+  section.band { padding: 56px 0; border-top: 1px solid var(--line); }
+  .eyebrow { font-size: 12.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--green-600); margin: 0 0 8px; }
+  .eyebrow.warn-eye { color: var(--rust); }
+  h2.sec { font-size: 30px; line-height: 1.12; margin: 0 0 10px; font-weight: 600; }
+  .sub { color: var(--muted); margin: 0 0 28px; font-size: 16.5px; max-width: 62ch; }
 
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .card {
+  /* stat strip */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .stat .num { font-size: 30px; font-weight: 700; letter-spacing: -.5px; color: var(--green-700); }
+  .stat .num.rust { color: var(--rust); }
+  .stat .lbl { font-size: 13px; color: var(--muted); margin-top: 2px; line-height: 1.35; }
+
+  /* threat grid */
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .threat {
     background: var(--card); border: 1px solid var(--line);
     border-radius: var(--radius); padding: 20px;
   }
-  .card h3 { margin: 0 0 6px; font-size: 16px; }
-  .card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .threat .ic { font-size: 26px; }
+  .threat h3 { margin: 10px 0 6px; font-size: 16.5px; }
+  .threat p { margin: 0; color: var(--muted); font-size: 14.5px; }
 
-  ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
-  ol.steps li {
-    position: relative; padding: 14px 0 14px 48px; border-bottom: 1px dashed var(--line);
+  /* timeline */
+  .timeline { display: grid; gap: 0; }
+  .tl {
+    position: relative; padding: 18px 0 18px 40px; border-left: 2px solid var(--green-100);
+    margin-left: 8px;
   }
+  .tl:last-child { border-left-color: transparent; }
+  .tl::before {
+    content: ""; position: absolute; left: -9px; top: 22px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--green-700); border: 3px solid var(--surface);
+  }
+  .tl.now::before { background: var(--rust); }
+  .tl .yr { font-weight: 800; font-size: 13px; letter-spacing: .04em; color: var(--green-700); text-transform: uppercase; }
+  .tl.now .yr { color: var(--rust); }
+  .tl h3 { margin: 3px 0 5px; font-size: 17px; }
+  .tl p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  /* case studies */
+  .cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .case {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px; display: flex; flex-direction: column;
+  }
+  .case .flag { font-size: 28px; }
+  .case h3 { margin: 8px 0 4px; font-size: 17px; }
+  .case .tagline { font-size: 12.5px; font-weight: 700; color: var(--green-600); text-transform: uppercase; letter-spacing: .05em; }
+  .case p { margin: 12px 0 0; color: var(--muted); font-size: 14px; }
+  .case .result {
+    margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line);
+    font-size: 13.5px; font-weight: 700; color: var(--green-800);
+  }
+
+  /* lessons / how you help */
+  .lessons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  .lesson { background: var(--green-050); border: 1px solid var(--green-100); border-radius: 16px; padding: 20px; }
+  .lesson .n { font-family: "Fraunces", serif; font-weight: 600; color: var(--green-700); font-size: 22px; }
+  .lesson h3 { margin: 6px 0 6px; font-size: 16px; }
+  .lesson p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  /* action / funnel */
+  .action-band { background: linear-gradient(165deg, #1b5e20, #14361b); color: #eaf3e4; border-top: 0; }
+  .action-band .eyebrow { color: #9ed29a; }
+  .action-band h2.sec { color: #fff; }
+  .action-band .sub { color: #c7ddc1; }
+  .funnel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .fcard {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14);
+    border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column;
+  }
+  .fcard .ic { font-size: 26px; }
+  .fcard h3 { margin: 10px 0 6px; font-size: 17px; color: #fff; }
+  .fcard p { margin: 0 0 16px; color: #c7ddc1; font-size: 14px; flex: 1; }
+  .fcard a.go {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    text-decoration: none; font-weight: 700; font-size: 15px; padding: 12px 16px; border-radius: 12px;
+    background: #fff; color: var(--green-800);
+  }
+  .fcard a.go.tonal { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.22); }
+
+  /* steps (install) */
+  ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 18px 0 0; }
+  ol.steps li { position: relative; padding: 12px 0 12px 46px; border-bottom: 1px dashed var(--line); font-size: 14.5px; }
   ol.steps li:last-child { border-bottom: 0; }
   ol.steps li::before {
     counter-increment: s; content: counter(s);
-    position: absolute; left: 0; top: 12px;
+    position: absolute; left: 0; top: 10px;
     width: 30px; height: 30px; border-radius: 50%;
     background: var(--green-700); color: #fff; font-weight: 700;
     display: grid; place-items: center; font-size: 14px;
   }
-  ol.steps b { color: var(--ink); }
+  details.disc { margin-top: 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); overflow: hidden; }
+  details.disc summary { cursor: pointer; padding: 16px 18px; font-weight: 700; list-style: none; display: flex; align-items: center; gap: 10px; }
+  details.disc summary::-webkit-details-marker { display: none; }
+  details.disc summary .chev { margin-left: auto; transition: .2s; color: var(--muted); }
+  details.disc[open] summary .chev { transform: rotate(90deg); }
+  details.disc .disc-b { padding: 0 18px 18px; }
 
-  .checklist { list-style: none; padding: 0; margin: 0; }
-  .checklist li { padding: 9px 0 9px 30px; position: relative; color: var(--muted); }
-  .checklist li::before {
-    content: "✓"; position: absolute; left: 0; top: 9px;
-    color: var(--green-600); font-weight: 800;
+  /* ---------- donate ---------- */
+  .donate-band { background: var(--amber-050); border-top: 1px solid var(--amber-100); }
+  .donate-head { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 34px; align-items: center; }
+  .donate-head .eyebrow { color: var(--amber-d); }
+  .tiers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 8px 0 0; }
+  .tier {
+    background: var(--card); border: 1px solid var(--amber-100); border-radius: 16px; padding: 18px;
   }
-
-  .note {
-    background: var(--green-050); border: 1px solid var(--green-100);
-    border-radius: 14px; padding: 16px 18px; color: var(--green-900); font-size: 14.5px;
+  .tier .amt { font-weight: 800; font-size: 20px; color: var(--amber-d); letter-spacing: -.3px; }
+  .tier .does { font-size: 13.5px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+  .give-card {
+    background: var(--card); border: 1px solid var(--amber-100); border-radius: var(--radius);
+    padding: 24px; box-shadow: var(--shadow);
   }
-  .warn {
-    background: #fff7e6; border: 1px solid #ffe2a8;
-    border-radius: 14px; padding: 16px 18px; color: #5a4300; font-size: 14.5px;
+  .give-card h3 { margin: 0 0 4px; font-size: 18px; }
+  .give-card .give-sub { color: var(--muted); font-size: 14px; margin: 0 0 16px; }
+  .channel { display: flex; align-items: center; gap: 13px; padding: 13px 0; border-top: 1px solid var(--line); }
+  .channel:first-of-type { border-top: 0; }
+  .channel .cic { width: 40px; height: 40px; border-radius: 11px; background: var(--green-050); display: grid; place-items: center; font-size: 19px; flex: none; }
+  .channel .cname { font-weight: 700; font-size: 14.5px; }
+  .channel .cval { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .give-card a.givebtn {
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    margin-top: 16px; text-decoration: none; font-weight: 700; font-size: 16px;
+    padding: 14px; border-radius: 13px; background: var(--amber); color: #3a2c00;
   }
+  .give-note { font-size: 12px; color: var(--faint); margin-top: 12px; line-height: 1.5; }
 
-  footer { padding: 36px 0 60px; color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--line); }
-  .disclaimer { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+  /* generic note boxes */
+  .note { background: var(--green-050); border: 1px solid var(--green-100); border-radius: 14px; padding: 16px 18px; color: var(--green-900); font-size: 14.5px; }
+  .warn { background: var(--amber-050); border: 1px solid var(--amber-100); border-radius: 14px; padding: 16px 18px; color: #5a4300; font-size: 14.5px; }
 
-  @media (max-width: 760px) {
-    .hero { grid-template-columns: 1fr; gap: 28px; text-align: left; padding-bottom: 36px; }
-    .hero h1 { font-size: 32px; }
-    .phone { order: -1; width: 230px; }
-    .grid { grid-template-columns: 1fr; }
+  footer.site { padding: 40px 0 64px; color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--line); background: #fff; }
+  .disclaimer { font-size: 12.5px; color: var(--faint); margin-top: 10px; max-width: 70ch; }
+  footer.site .fnav { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-weight: 600; }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; gap: 30px; padding-bottom: 40px; }
+    .hero h1 { font-size: 36px; }
+    .hero-card { order: -1; max-width: 100%; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .grid3, .cases, .lessons, .funnel, .tiers { grid-template-columns: 1fr; }
+    .donate-head { grid-template-columns: 1fr; }
+    h2.sec { font-size: 25px; }
   }
 </style>
 </head>
 <body>
-<header>
+
+<header class="site">
   <div class="wrap">
     <div class="brandbar">
       <div class="badge">🐿️</div>
       <div>
         <div class="name">Squirrel Watch PH</div>
-        <div class="country">Philippines · powered by WildWatch</div>
+        <div class="country">Philippines · a WildWatch campaign</div>
       </div>
-      <a class="ghlink" href="https://github.com/Sreenivas-Sadhu-Prabhakara/wildwatch" target="_blank" rel="noopener">View source ↗</a>
+      <nav class="navlinks">
+        <a href="#threat" class="hide-sm">The threat</a>
+        <a href="#proof" class="hide-sm">Proof it works</a>
+        <a href="#act">Report</a>
+        <a href="#donate" class="donate">♡ Donate</a>
+      </nav>
     </div>
 
-    <div class="wrap" style="padding:0;">
-      <div class="hero">
-        <div>
-          <span class="pill">⚠ Invasive species reporting</span>
-          <h1>Spotted a squirrel?<br>Help DENR track it.</h1>
-          <p class="lead">
-            Finlayson’s squirrels are invasive and not native to the Philippines.
-            Snap a photo, drop a pin, and your report goes straight to the DENR
-            Biodiversity Management Bureau — no account needed.
-          </p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="app/">
-              🌿 Open the web app — report now
-            </a>
-            <a class="btn btn-ghost" href="https://github.com/Sreenivas-Sadhu-Prabhakara/wildwatch/releases/latest/download/squirrel-watch-ph.apk">
-              ⬇ Android (.apk)
-            </a>
-          </div>
-          <div class="meta">Works in any browser — no install · Android app available · iPhone via TestFlight (coming soon)</div>
+    <div class="hero">
+      <div>
+        <span class="pill">⚠ Invasive species alert</span>
+        <h1 class="serif">An invasive squirrel is closing in on our <em>farm provinces.</em></h1>
+        <p class="lead">
+          Finlayson’s squirrel isn’t native to the Philippines — and with no
+          natural predators here, it’s spreading from Metro Manila toward the
+          fruit farms of Cavite, Batangas and Nueva Ecija. One photo and a pin
+          from you help DENR find them <strong>before</strong> they reach the
+          harvest.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="app/">🌿 Report a sighting</a>
+          <a class="btn btn-donate" href="#donate">♡ Fund the campaign</a>
         </div>
-        <div class="phone">
-          <img src="assets/screenshot-home.png" alt="Squirrel Watch PH home screen" />
-        </div>
+        <div class="meta">Free · no account · 60 seconds · works in any browser</div>
       </div>
+
+      <aside class="hero-card">
+        <div class="frontier-label">The frontier · confirmed by DENR-BMB</div>
+        <h3 class="serif">Where it has already spread</h3>
+        <ul class="frontier-list">
+          <li><span class="dot"></span><span class="where">Metro Manila</span><span class="meta-sm">established</span></li>
+          <li><span class="dot"></span><span class="where">Cavite</span><span class="meta-sm">spreading</span></li>
+          <li><span class="dot"></span><span class="where">Batangas</span><span class="meta-sm">fruit-farm gateway</span></li>
+          <li><span class="dot"></span><span class="where">Rizal</span><span class="meta-sm">spreading</span></li>
+          <li><span class="dot"></span><span class="where">Nueva Ecija</span><span class="meta-sm">rice & farm belt</span></li>
+        </ul>
+      </aside>
     </div>
   </div>
 </header>
 
 <main>
-  <section id="install" class="wrap">
-    <h2>Install on Android</h2>
-    <p class="sub">Sideloading a test build takes about a minute.</p>
-    <ol class="steps">
-      <li><b>Download the APK</b> using the button above, on the Android phone itself.</li>
-      <li><b>Open the downloaded file</b> (from the notification or your Files / Downloads app).</li>
-      <li><b>Allow installs from this source</b> when prompted — Android asks the first time you install outside the Play Store. Tap <b>Settings → Allow from this source</b>, then go back.</li>
-      <li><b>Tap Install</b>, then <b>Open</b>. That’s it.</li>
-    </ol>
-    <div class="warn" style="margin-top:18px;">
-      <b>Heads up:</b> this is an unsigned test build for trying the app before it
-      reaches the Play Store. Google Play Protect may show a generic “unknown app”
-      warning — choose <b>Install anyway</b>. The release Play Store build will be
-      properly signed.
-    </div>
-  </section>
+  <!-- WHY IT MATTERS -->
+  <section class="band wrap" id="threat">
+    <p class="eyebrow warn-eye">Why this matters</p>
+    <h2 class="sec serif">A “harmless” squirrel with no brakes</h2>
+    <p class="sub">
+      Finlayson’s squirrel (<em>Callosciurus finlaysonii</em>) was introduced through the
+      illegal exotic-pet trade. It breeds 2–4 young several times a year, and the
+      Philippines has no predator or disease to keep it in check. The DENR has
+      classified it as a destructive <strong>Invasive Alien Species</strong>.
+    </p>
 
-  <section class="wrap">
-    <h2>Try it out</h2>
-    <p class="sub">A quick run-through to test the full reporting flow.</p>
-    <ul class="checklist">
-      <li>Tap <b>Report a sighting</b> on the home screen.</li>
-      <li>Pick the species — try <b>Finlayson’s squirrel</b> and read the ID hint.</li>
-      <li>Add a photo with the camera or from your gallery.</li>
-      <li>Tap <b>Use my location</b>, or tap the map to place the pin yourself.</li>
-      <li>Answer the quick details (how many, what it was doing, where).</li>
-      <li>Optionally add your contact details — or leave them blank to stay anonymous.</li>
-      <li>Tap <b>Send report to DENR</b> — your email app opens, pre-filled and addressed to <b>bmb@bmb.gov.ph</b> with the photo attached. Send it (or just check the draft while testing).</li>
-      <li>Open <b>My reports</b> to see it saved with its status. Try airplane mode to see offline behaviour.</li>
-    </ul>
-    <div class="note" style="margin-top:18px;">
-      There is no server behind this app. Reports are delivered straight to the
-      agency from your device, and your history is kept locally on the phone.
+    <div class="stats">
+      <div class="stat"><div class="num rust">0</div><div class="lbl">natural predators here to slow its spread</div></div>
+      <div class="stat"><div class="num">2–4</div><div class="lbl">young per litter, several litters a year</div></div>
+      <div class="stat"><div class="num rust">5</div><div class="lbl">provinces with confirmed sightings</div></div>
+      <div class="stat"><div class="num">2010s</div><div class="lbl">first seen — already breaching farm country</div></div>
     </div>
-  </section>
 
-  <section class="wrap">
-    <h2>What’s inside</h2>
-    <p class="sub">Built to be rebranded for any animal, country, and agency.</p>
-    <div class="grid">
-      <div class="card">
-        <h3>📸 Photo &amp; evidence</h3>
-        <p>Capture or attach a photo so the agency can confirm the species.</p>
+    <div class="grid3" style="margin-top:22px">
+      <div class="threat">
+        <div class="ic">🥭</div>
+        <h3>It eats the harvest</h3>
+        <p>Aggressively frugivorous — it strips mango, lanzones, rambutan and coconut, the exact crops provincial farmers live on.</p>
       </div>
-      <div class="card">
-        <h3>📍 Map pin &amp; GPS</h3>
-        <p>Auto-locate or tap an OpenStreetMap to mark exactly where you saw it.</p>
+      <div class="threat">
+        <div class="ic">🐦</div>
+        <h3>It raids native birds</h3>
+        <p>Documented robbing nests, eating eggs and hatchlings, and competing with native birds like local parrots for food and cavities.</p>
       </div>
-      <div class="card">
-        <h3>✈️ Works offline</h3>
-        <p>Reports save on the device and send when you’re back online.</p>
+      <div class="threat">
+        <div class="ic">🌳</div>
+        <h3>It kills trees</h3>
+        <p>Strips bark to wear down its teeth, exposing mature trees to fatal disease and thinning native forest canopy.</p>
       </div>
-      <div class="card">
-        <h3>🔁 Reusable engine</h3>
-        <p>Swap the campaign config to report any species to any agency, by email or API.</p>
+      <div class="threat">
+        <div class="ic">⚡</div>
+        <h3>It chews infrastructure</h3>
+        <p>In the city it gnaws through electrical, internet and fibre-optic cables — causing outages and costly repairs.</p>
+      </div>
+      <div class="threat">
+        <div class="ic">🩺</div>
+        <h3>It’s a health risk</h3>
+        <p>Like many wild rodents it can carry pathogens and transmit diseases — including rabies — through bites or scratches.</p>
+      </div>
+      <div class="threat">
+        <div class="ic">🚫</div>
+        <h3>Don’t catch & release</h3>
+        <p>DENR warns the public never to relocate them — it only spreads the infestation. Report it instead, and let the experts handle containment humanely.</p>
       </div>
     </div>
   </section>
 
-  <section class="wrap">
-    <h2>On iPhone?</h2>
-    <p class="sub">iOS can’t sideload APKs.</p>
-    <div class="note">
-      An iOS build will be distributed through <b>Apple TestFlight</b>. Want in on the
-      iPhone test? Open an issue on the
-      <a href="https://github.com/Sreenivas-Sadhu-Prabhakara/wildwatch" target="_blank" rel="noopener">GitHub repo</a>
-      and we’ll add you to the TestFlight group when it’s live.
+  <!-- THE SPREAD -->
+  <section class="band wrap" id="spread">
+    <p class="eyebrow warn-eye">The clock is running</p>
+    <h2 class="sec serif">From gated villages to the farm belt</h2>
+    <p class="sub">
+      It started inside a few exclusive Metro Manila communities. It is no longer
+      contained there — and every dry season it pushes further into the provinces
+      that feed the country.
+    </p>
+    <div class="timeline">
+      <div class="tl">
+        <div class="yr">2010s · First sighting</div>
+        <h3>Inside Metro Manila’s gated villages</h3>
+        <p>First reported in secured green communities and golf courses — by 2013 there were encounters of a squirrel chasing a native tarsier.</p>
+      </div>
+      <div class="tl">
+        <div class="yr">Today · Established</div>
+        <h3>Across Metro Manila</h3>
+        <p>Now common in Makati, Muntinlupa, Quezon City and UP Diliman — well past the point of easy containment in the city.</p>
+      </div>
+      <div class="tl now">
+        <div class="yr">Now · The frontier</div>
+        <h3>Breaching into Cavite, Batangas, Rizal & Nueva Ecija</h3>
+        <p>DENR-BMB has confirmed active sightings encroaching on Central Luzon’s farms. Catching 10 squirrels at this frontier is worth more than 100 in a Manila park.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF IT WORKS -->
+  <section class="band wrap" id="proof">
+    <p class="eyebrow">This is winnable — it’s been done before</p>
+    <h2 class="sec serif">Your sighting is the data that stops it</h2>
+    <p class="sub">
+      Governments can’t check every backyard. Around the world, the deciding
+      factor has been ordinary people reporting what they see — turning the
+      community into an early-warning radar that maps where the invasion is
+      heading next.
+    </p>
+
+    <div class="cases">
+      <div class="case">
+        <div class="flag">🇳🇱</div>
+        <div class="tagline">The Netherlands</div>
+        <h3>A close cousin, wiped out</h3>
+        <p>Pallas’s squirrels (a relative of Finlayson’s) escaped a pet dealer and spread across 50&nbsp;km². A live-trap, sterilise & rehome campaign — powered by door-to-door public reporting — cleared them.</p>
+        <div class="result">✓ 249 caught · 100% eradication</div>
+      </div>
+      <div class="case">
+        <div class="flag">🇮🇪</div>
+        <div class="tagline">Ireland</div>
+        <h3>Nature did the work</h3>
+        <p>Decades of culling barely dented invasive grey squirrels. Protecting one native predator — the pine marten — collapsed grey populations while native reds bounced back.</p>
+        <div class="result">✓ Greys vanished from recolonised woods</div>
+      </div>
+      <div class="case">
+        <div class="flag">🇬🇧</div>
+        <div class="tagline">United Kingdom</div>
+        <h3>Hold the frontier</h3>
+        <p>Rather than chase 2.5&nbsp;million squirrels everywhere, volunteers map “buffer zones” at the invasion’s edge and push it back — using public sighting maps to aim every trap.</p>
+        <div class="result">✓ Periphery-first, data-driven control</div>
+      </div>
+    </div>
+
+    <p class="eyebrow" style="margin-top:38px">What that means for the Philippines</p>
+    <div class="lessons">
+      <div class="lesson">
+        <div class="n">01</div>
+        <h3>Target the periphery first</h3>
+        <p>The most valuable reports are from the edges — Cavite, Batangas, Nueva Ecija — where small numbers can still be stopped before they ruin farms.</p>
+      </div>
+      <div class="lesson">
+        <div class="n">02</div>
+        <h3>Do it humanely, build trust</h3>
+        <p>Everywhere it worked, the public trusted the method. Containment is humane and centralised — to protect native birds and poor farmers’ livelihoods.</p>
+      </div>
+      <div class="lesson">
+        <div class="n">03</div>
+        <h3>Press in the dry season</h3>
+        <p>Trapping works best when wild fruit is scarce and baited traps are tempting. Steady year-round reports tell teams exactly where to focus.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAKE ACTION (FUNNEL) -->
+  <section class="band action-band" id="act">
+    <div class="wrap">
+      <p class="eyebrow">Take action — it takes 60 seconds</p>
+      <h2 class="sec serif">Saw a squirrel? Put it on the map.</h2>
+      <p class="sub">
+        Every report adds a point to the citizen-science map DENR uses to aim
+        containment. Start with the web app — or install it for one-tap reporting
+        in the field.
+      </p>
+      <div class="funnel">
+        <div class="fcard">
+          <div class="ic">🌿</div>
+          <h3>Report now — web app</h3>
+          <p>Pick the species, add a photo, drop a pin. It opens your email app pre-addressed to DENR-BMB. No account, works in any browser.</p>
+          <a class="go" href="app/">Open the report app →</a>
+        </div>
+        <div class="fcard">
+          <div class="ic">📲</div>
+          <h3>Install on Android</h3>
+          <p>Sideload the test build for faster reporting from the field, even with patchy signal. About a minute to set up.</p>
+          <a class="go tonal" href="https://github.com/Sreenivas-Sadhu-Prabhakara/wildwatch/releases/latest/download/squirrel-watch-ph.apk">Download the APK (51&nbsp;MB) ↓</a>
+        </div>
+        <div class="fcard">
+          <div class="ic">📣</div>
+          <h3>Spread the word</h3>
+          <p>The campaign only works at scale. Share this page with your barangay, farm co-op or village group chat — especially in the frontier provinces.</p>
+          <a class="go tonal" href="https://github.com/Sreenivas-Sadhu-Prabhakara/wildwatch" target="_blank" rel="noopener">Share & view source ↗</a>
+        </div>
+      </div>
+
+      <details class="disc" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);">
+        <summary style="color:#fff;">📲 How to install the Android build<span class="chev">›</span></summary>
+        <div class="disc-b">
+          <ol class="steps" style="color:#c7ddc1;">
+            <li><b style="color:#fff;">Download the APK</b> using the button above, on the Android phone itself.</li>
+            <li><b style="color:#fff;">Open the downloaded file</b> from the notification or your Files / Downloads app.</li>
+            <li><b style="color:#fff;">Allow installs from this source</b> when Android prompts — tap <b style="color:#fff;">Settings → Allow</b>, then go back.</li>
+            <li><b style="color:#fff;">Tap Install, then Open.</b> That’s it.</li>
+          </ol>
+          <div class="warn" style="margin-top:16px;">
+            <b>Heads up:</b> this is an unsigned test build for trying the app before the Play Store release.
+            Play Protect may show a generic “unknown app” warning — choose <b>Install anyway</b>.
+            On iPhone? An iOS build is coming via Apple TestFlight — open an issue on the repo to join.
+          </div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- DONATE -->
+  <section class="band donate-band" id="donate">
+    <div class="wrap">
+      <div class="donate-head">
+        <div>
+          <p class="eyebrow">Fund the response</p>
+          <h2 class="sec serif">Reporting finds them. Funding stops them.</h2>
+          <p class="sub">
+            The map is only the first half. Humane traps, bait, volunteer outreach
+            and vet care all cost money — and the case studies are blunt about it:
+            the campaigns that won were the ones resourced to act on the data fast,
+            right at the frontier. Your gift puts traps where your reports point.
+          </p>
+          <div class="tiers">
+            <div class="tier">
+              <div class="amt">₱250</div>
+              <div class="does">A week of bait — corn, peanut butter — to pre-bait a trap until a squirrel loses its wariness.</div>
+            </div>
+            <div class="tier">
+              <div class="amt">₱1,500</div>
+              <div class="does">One heavy-duty humane live-trap deployed at a frontier site in the farm provinces.</div>
+            </div>
+            <div class="tier">
+              <div class="amt">₱5,000</div>
+              <div class="does">Vet-supervised humane handling and care for safely trapped animals.</div>
+            </div>
+            <div class="tier">
+              <div class="amt">₱15,000</div>
+              <div class="does">A door-to-door outreach drive in a frontier barangay — flyers, briefings, trust-building.</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="give-card">
+          <h3 class="serif">Give to Squirrel Watch PH</h3>
+          <p class="give-sub">Every peso goes to traps, bait, outreach and humane handling at the frontier.</p>
+
+          <!-- TODO: replace the placeholders below with the campaign's real
+               payment details before going live (GCash name & number, bank
+               account, and/or an online donation link such as PayMongo / Ko-fi). -->
+          <div class="channel">
+            <div class="cic">📱</div>
+            <div>
+              <div class="cname">GCash</div>
+              <div class="cval">Squirrel Watch PH · 0917&nbsp;XXX&nbsp;XXXX</div>
+            </div>
+          </div>
+          <div class="channel">
+            <div class="cic">🏦</div>
+            <div>
+              <div class="cname">Bank transfer</div>
+              <div class="cval">BPI · 0000-0000-00 · WildWatch Initiative</div>
+            </div>
+          </div>
+          <div class="channel">
+            <div class="cic">💳</div>
+            <div>
+              <div class="cname">Card / e-wallet online</div>
+              <div class="cval">Secure checkout via our donation page</div>
+            </div>
+          </div>
+
+          <a class="givebtn" href="#donate" data-donate-link>♡ Donate online</a>
+          <p class="give-note">
+            Placeholder details shown — connect your GCash, bank and an online
+            processor before launch. Squirrel Watch PH is an independent civic
+            campaign, not a government agency; funds support field operations and
+            outreach, not the purchase or relocation of wildlife.
+          </p>
+        </aside>
+      </div>
     </div>
   </section>
 </main>
 
-<footer>
+<footer class="site">
   <div class="wrap">
-    <div><b>Squirrel Watch PH</b> — a WildWatch campaign · delivered to DENR Biodiversity Management Bureau (bmb@bmb.gov.ph)</div>
+    <div><b>Squirrel Watch PH</b> — a WildWatch campaign · sighting reports go to the DENR Biodiversity Management Bureau (bmb@bmb.gov.ph)</div>
     <div class="disclaimer">
-      Independent civic-tech test build, not an official DENR product. For wildlife
-      emergencies contact DENR directly. Do not touch, catch or feed wild squirrels —
-      they can carry disease.
+      Independent civic-tech project, not an official DENR product. For wildlife
+      emergencies, contact DENR directly. Do not touch, catch, feed or relocate
+      wild squirrels — they can carry disease, and moving them only spreads the
+      infestation. Report sightings and let trained teams handle humane,
+      centralised containment.
+    </div>
+    <div class="fnav">
+      <a href="#threat">The threat</a>
+      <a href="#proof">Proof it works</a>
+      <a href="#act">Report a sighting</a>
+      <a href="#donate">Donate</a>
+      <a href="https://github.com/Sreenivas-Sadhu-Prabhakara/wildwatch" target="_blank" rel="noopener">View source ↗</a>
     </div>
   </div>
 </footer>
